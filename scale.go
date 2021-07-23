@@ -23,15 +23,11 @@ func main() {
 	scaledb.AutoMigrate(db)
 
 	// Create
-	michela := scaledb.Owner{
-		Model:        gorm.Model{},
-		Name:         "michels",
-		DuesPayments: []scaledb.JournalEntry{},
-	}
-	db.Create(&michela)
+	michela := &scaledb.Owner{Name: "michela"}
+	db.Create(michela)
 
 	je := scaledb.NewStairsPayment(time.Date(2019, 7, 1, 0, 0, 0, 0, time.Local))
-	db.Create(&je)
+	db.Create(je)
 
 	// Read
 	// var product Product
@@ -45,5 +41,5 @@ func main() {
 	// db.Model(&product).Updates(map[string]interface{}{"Price": 200, "Code": "F42"})
 
 	// // Delete - delete Owner
-	db.Delete(&michela, 1)
+	db.Delete(michela, 1)
 }
