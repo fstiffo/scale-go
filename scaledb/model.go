@@ -12,8 +12,11 @@ type Owner struct {
 	DuesPayments []JournalEntry
 }
 
+//go:generate stringer -type=Account
+type Account int
+
 const (
-	StairsPayment = iota + 1
+	StairsPayment Account = iota + 1
 	Loan
 	Repayment
 	DuesPayment
@@ -26,7 +29,7 @@ type JournalEntry struct {
 	Date        time.Time
 	Debit       int
 	Credit      int
-	Account     int
+	Account     Account
 	OwnerID     uint
 	Description string
 }
