@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"gorm.io/gorm"
@@ -22,12 +23,11 @@ func main() {
 	// Migrate the schema
 	scaledb.AutoMigrate(db)
 
-	// Create
-	michela := &scaledb.Owner{Name: "michela"}
-	db.Create(michela)
+	// Import from former project db
+	scaledb.Import(db)
 
-	je := scaledb.NewStairsPayment(time.Date(2019, 7, 1, 0, 0, 0, 0, time.Local))
-	db.Create(je)
+	dt := time.Date(2019, 7, 1, 0, 0, 0, 0, time.Local)
+	fmt.Println("Specific date and time is: ", dt.Format(time.RFC3339))
 
 	// Read
 	// var product Product
@@ -41,5 +41,5 @@ func main() {
 	// db.Model(&product).Updates(map[string]interface{}{"Price": 200, "Code": "F42"})
 
 	// // Delete - delete Owner
-	db.Delete(michela, 1)
+	// db.Delete(michela, 1)
 }
