@@ -6,6 +6,14 @@ import (
 	"gorm.io/gorm"
 )
 
+type Param struct {
+	gorm.Model
+	ValidFrom         time.Time
+	StairsCleaningFee int
+	CleaningsPerMonth int
+	MonthlyDues       int
+}
+
 type Owner struct {
 	gorm.Model
 	Name         string
@@ -104,6 +112,7 @@ func NewRevenue(date time.Time, amount int, desctiption string) *JournalEntry {
 }
 
 func AutoMigrate(db *gorm.DB) {
+	db.AutoMigrate(&Param{})
 	db.AutoMigrate(&Owner{})
 	db.AutoMigrate(&JournalEntry{})
 }

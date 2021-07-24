@@ -26,7 +26,7 @@ func main() {
 	// Import from former project db
 	scaledb.Import(db)
 
-	dt := time.Date(2019, 7, 1, 0, 0, 0, 0, time.Local)
+	dt := time.Date(2019, 7, 1, 0, 0, 0, 0, time.UTC)
 	fmt.Println("Specific date and time is: ", dt.Format(time.RFC3339))
 
 	// Read
