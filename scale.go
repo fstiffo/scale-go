@@ -30,6 +30,7 @@ func main() {
 	fmt.Println("Specific date and time is: ", dt.Format(time.RFC3339))
 	fmt.Println("Cash: ", scaledb.Cash(db))
 	fmt.Println("To be repaid: ", scaledb.ToBeRepaid(db))
+	fmt.Println("Net worth: ", scaledb.NetWorth(db))
 
 	// Read
 	// var product Product
