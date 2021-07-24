@@ -21,13 +21,15 @@ func main() {
 	}
 
 	// Migrate the schema
-	scaledb.AutoMigrate(db)
+	// scaledb.AutoMigrate(db)
 
 	// Import from former project db
-	scaledb.Import(db)
+	// scaledb.Import(db)
 
 	dt := time.Date(2019, 7, 1, 0, 0, 0, 0, time.UTC)
 	fmt.Println("Specific date and time is: ", dt.Format(time.RFC3339))
+	fmt.Println("Cash: ", scaledb.Cash(db))
+	fmt.Println("To be repaid: ", scaledb.ToBeRepaid(db))
 
 	// Read
 	// var product Product

@@ -34,7 +34,9 @@ func Import(db *gorm.DB) {
 		fmt.Println(err)
 	}
 	// Raw SQL
-	rows, err := statoscaledb.Raw("SELECT data, importo, type, condomino_id, causale FROM operazioni").Rows()
+	rows, err := statoscaledb.
+		Raw("SELECT data, importo, type, condomino_id, causale FROM operazioni ORDER BY data").
+		Rows()
 
 	if err != nil {
 		fmt.Println(err)
