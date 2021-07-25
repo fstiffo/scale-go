@@ -1,8 +1,6 @@
 package scaledb
 
 import (
-	"fmt"
-
 	"github.com/uniplaces/carbon"
 	"gorm.io/gorm"
 )
@@ -52,13 +50,35 @@ func NetWorth(db *gorm.DB) int {
 	db.Last(&param)
 	// p := period.Between(param.ValidFrom, time.Now())
 	today := carbon.Now()
-	fmt.Println(today)
 	from := carbon.NewCarbon(param.ValidFrom)
-	fmt.Println(from)
-	carbonMonths := today.DiffInMonths(from, true)
+	carbonMonths := today.DiffInMonths(from, true) - 24 // -24 because there is a bug in the carbon library!
 	// months := p.Months() + p.Years()*12
 	var numOfOwners int64
 	db.Model(&Owner{}).Count(&numOfOwners)
 	//mesi * num_condomini * (snd s.attuale).quotaMensile + altro - pagamenti
-	return int(carbonMonths)*int(numOfOwners)*param.MonthlyDues + totalOthers - totalStairsPayments
+	return int(carbonMonths)*int(numOfOwners)*param.MonthlyDuesRate + totalOthers - totalStairsPayments
+}
+
+func AlreadyPayedRates(db *gorm.DB, ownerID uint) int {
+	var result struct {
+		TotalDebits  int
+		TotalCredits int
+	}
+
+	db.Model(&JournalEntry{}).
+		Select("SUM(credit) as total_credits").
+		Where("owner_id = ?", ownerID).
+		First(&result)
+	totalDuesPayments := result.TotalCredits
+
+	var param Param
+	db.Last(&param)
+
+	payedMonthlyRates := totalDuesPayments / param.MonthlyDuesRate
+
+	today := carbon.Now()
+	from := carbon.NewCarbon(param.ValidFrom)
+	carbonMonths := today.DiffInMonths(from, true) - 24 // -24 because there is a bug in the carbon library!
+
+	return payedMonthlyRates - int(carbonMonths)
 }

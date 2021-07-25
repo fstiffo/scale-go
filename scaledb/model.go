@@ -11,7 +11,7 @@ type Param struct {
 	ValidFrom         time.Time
 	StairsCleaningFee int
 	CleaningsPerMonth int
-	MonthlyDues       int
+	MonthlyDuesRate   int
 }
 
 type Owner struct {

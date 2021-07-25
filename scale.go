@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 
 	"gorm.io/gorm"
 	"sgajo.com/scale/scaledb"
@@ -26,11 +25,14 @@ func main() {
 	// Import from former project db
 	// scaledb.Import(db)
 
-	dt := time.Date(2019, 7, 1, 0, 0, 0, 0, time.UTC)
-	fmt.Println("Specific date and time is: ", dt.Format(time.RFC3339))
 	fmt.Println("Cash: ", scaledb.Cash(db))
 	fmt.Println("To be repaid: ", scaledb.ToBeRepaid(db))
 	fmt.Println("Net worth: ", scaledb.NetWorth(db))
+	for id := uint(1); id < 5; id++ {
+		var owner scaledb.Owner
+		db.First(&owner, id)
+		fmt.Println("Already payed monthly rates by "+owner.Name+": ", scaledb.AlreadyPayedRates(db, id))
+	}
 
 	// Read
 	// var product Product

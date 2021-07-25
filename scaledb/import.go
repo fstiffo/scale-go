@@ -15,7 +15,7 @@ func Import(db *gorm.DB) {
 		ValidFrom:         time.Date(2019, 7, 1, 0, 0, 0, 0, time.UTC),
 		StairsCleaningFee: 20,
 		CleaningsPerMonth: 2,
-		MonthlyDues:       12,
+		MonthlyDuesRate:   12,
 	}
 	db.Create(param)
 
